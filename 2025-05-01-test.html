@@ -95,6 +95,28 @@
                 
                 <tr>
                     <td>1</td>
+                    <td>Guran (LSS)</td>
+                    <td>
+                        First (First 44.7 djup kol)
+                        
+                            <br><small>SWE-777</small>
+                        
+                    </td>
+                    <td>
+                        
+                            1.164
+                        
+                    </td>
+                    <td>0</td>
+                    <td>12:12</td>
+                    <td>12:30:00</td>
+                    <td>00:18:00</td>
+                    <td>00:20:57</td>
+                    <td>00:00:00</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
                     <td>Pelle (LSS)</td>
                     <td>
                         Miandra (X-99)
@@ -112,11 +134,11 @@
                     <td>13:00:00</td>
                     <td>01:00:00</td>
                     <td>01:00:00</td>
-                    <td>00:00:00</td>
+                    <td>00:39:03</td>
                 </tr>
                 
                 <tr>
-                    <td>2</td>
+                    <td>3</td>
                     <td>Svenne (LJS)</td>
                     <td>
                         Imbruglia (Arcona 340)
@@ -134,11 +156,11 @@
                     <td>14:00</td>
                     <td>01:56:00</td>
                     <td>02:01:41</td>
-                    <td>01:01:41</td>
+                    <td>01:40:44</td>
                 </tr>
                 
                 <tr>
-                    <td>3</td>
+                    <td>4</td>
                     <td>Nisse (LSS)</td>
                     <td>
                         Imbruglia (Arcona 340)
@@ -156,29 +178,7 @@
                     <td>15:00:00</td>
                     <td>02:56:00</td>
                     <td>03:04:37</td>
-                    <td>02:04:37</td>
-                </tr>
-                
-                <tr>
-                    <td>4</td>
-                    <td>Guran (LSS)</td>
-                    <td>
-                        First (First 44.7 djup kol)
-                        
-                            <br><small>SWE-777</small>
-                        
-                    </td>
-                    <td>
-                        
-                            1.164
-                        
-                    </td>
-                    <td>0</td>
-                    <td>12:12</td>
-                    <td>15:00:00</td>
-                    <td>02:48:00</td>
-                    <td>03:15:33</td>
-                    <td>02:15:33</td>
+                    <td>02:43:40</td>
                 </tr>
                 
             
@@ -188,10 +188,55 @@
     <div class="no-print">
         <a href="index.html">Tillbaka till alla resultat</a>
         <button onclick="window.print()">Skriv ut</button>
+        <button onclick="location.href=window.location.pathname+'?t='+Date.now()">Kontrollera uppdateringar</button>
+        <div class="info mt-2">
+            <small>Det kan ta några minuter innan uppdateringar blir synliga på GitHub Pages.</small>
+        </div>
     </div>
 
     <div class="footer">
-        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-17 21:43:02
+        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-17 22:35:57
     </div>
+
+    <script>
+        
+        function checkForUpdates() {
+            
+            const currentTime = new Date().getTime();
+
+            
+            fetch(window.location.pathname + '?check=' + currentTime)
+                .then(response => response.text())
+                .then(html => {
+                    
+                    const parser = new DOMParser();
+                    const fetchedDoc = parser.parseFromString(html, 'text/html');
+
+                    
+                    const currentResults = document.querySelector('table').innerHTML;
+                    const newResults = fetchedDoc.querySelector('table').innerHTML;
+
+                    if (currentResults !== newResults) {
+                        
+                        const notification = document.createElement('div');
+                        notification.className = 'info no-print';
+                        notification.style.position = 'fixed';
+                        notification.style.top = '10px';
+                        notification.style.left = '50%';
+                        notification.style.transform = 'translateX(-50%)';
+                        notification.style.zIndex = '1000';
+                        notification.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                        notification.innerHTML = '<strong>Nya resultat finns tillgängliga!</strong> <button onclick="location.reload()">Uppdatera sidan</button>';
+                        document.body.appendChild(notification);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking for updates:', error);
+                });
+        }
+
+        
+        setInterval(checkForUpdates, 30000);
+    </script>
 </body>
 </html>
