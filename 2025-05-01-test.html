@@ -14,6 +14,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 1rem;
+            font-size: 0.9rem;
         }
         table {
             width: 100%;
@@ -21,15 +22,16 @@
             margin: 1rem 0;
         }
         th, td {
-            padding: 0.5rem;
+            padding: 0.3rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            white-space: nowrap;
         }
         th {
             background-color: #f8f9fa;
         }
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
+        tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.15) !important;
         }
         .info {
             background-color: #e7f3fe;
@@ -43,9 +45,18 @@
             color: #6c757d;
             font-size: 0.9rem;
         }
+        h1 {
+            font-size: 1.5rem;
+        }
         @media print {
             .no-print {
                 display: none;
+            }
+        }
+        @media screen {
+             
+            @page {
+                size: landscape;
             }
         }
     </style>
@@ -180,7 +191,7 @@
     </div>
 
     <div class="footer">
-        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-17 21:03:38
+        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-17 21:43:02
     </div>
 </body>
 </html>
