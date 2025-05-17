@@ -16,29 +16,36 @@
             padding: 1rem;
             font-size: 0.9rem;
         }
+         
         table {
+            font-size: 9pt;
+            table-layout: fixed;
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
         }
-        th, td {
+        th {
+            font-size: 9pt;
+            font-weight: bold;
+            padding: 0.3rem;
+            text-align: left;
+            background-color: #f8f9fa;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        td {
             padding: 0.3rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
             white-space: nowrap;
-        }
-        th {
-            background-color: #f8f9fa;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, 0.15) !important;
+            background-color: rgba(0, 0, 0, 0.18) !important;
         }
-        .info {
-            background-color: #e7f3fe;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-        }
+
         .footer {
             margin-top: 2rem;
             text-align: center;
@@ -48,9 +55,16 @@
         h1 {
             font-size: 1.5rem;
         }
+        .small {
+            font-size: 8pt;
+        }
         @media print {
             .no-print {
                 display: none;
+            }
+            @page {
+                size: landscape;
+                margin: 0.8cm;
             }
         }
         @media screen {
@@ -62,29 +76,50 @@
     </style>
 </head>
 <body>
-    <h1>The cup</h1>
-    <p>Datum: 2025-05-29</p>
-
+    <h1>Resultat - The cup</h1>
     
-
     
-    <div class="info">
-        Jaktstart med starttid 12:42, vind 10 m/s, banlängd 10 nm.
-    </div>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+    <p style="line-height: 1.2;">
+        <strong>Datum:</strong> 2025-05-29 | <strong>Starttid:</strong> 12:42 | <strong>Vind:</strong> 10 m/s | <strong>Banlängd:</strong> 10 nm | <strong>Deltagare:</strong> 17 | <em>* = anpassat SRS-värde</em>
+    </p>
+
     
 
     <table>
         <thead>
             <tr>
-                <th>Placering</th>
+                <th>Plac.</th>
                 <th>Seglare</th>
-                <th>Båt</th>
+                <th>Klubb</th>
+                <th>Båttyp</th>
+                <th>Segelnr</th>
+                <th>Mätbrev</th>
                 <th>SRS</th>
-                <th>Besättning</th>
+                <th>Besättn.</th>
                 <th>Starttid</th>
                 <th>Måltid</th>
                 <th>Seglad tid</th>
-                <th>Korrigerad tid</th>
+                <th>Korr. tid</th>
                 <th>Efter vinnare</th>
             </tr>
         </thead>
@@ -93,19 +128,21 @@
                 
                 <tr>
                     <td>1</td>
-                    <td>Svenne (LJS)</td>
+                    <td>Svenne</td>
+                    <td>LJS</td>
+                    <td>First 44.7 dju...</td>
                     <td>
-                        First (First 44.7 djup kol)
                         
-                            <br><small>SWE-777</small>
+                            SWE-777
                         
                     </td>
+                    <td></td>
                     <td>
                         
                             1.126
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>13:03</td>
                     <td>13:10:00</td>
                     <td>00:07:00</td>
@@ -115,41 +152,45 @@
                 
                 <tr>
                     <td>2</td>
-                    <td>Svenne (LJS)</td>
+                    <td>Svenne</td>
+                    <td>LJS</td>
+                    <td>Facil 30</td>
                     <td>
-                        Shira (Facil 30)
                         
-                            <br><small>SWE-44</small>
+                            SWE-44
                         
                     </td>
+                    <td>E3889</td>
                     <td>
                         
                             0.887
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>12:42</td>
-                    <td>12:13:01</td>
-                    <td>23:31:01</td>
-                    <td>20:51:34</td>
-                    <td>20:43:42</td>
+                    <td>12:13:02</td>
+                    <td>23:31:02</td>
+                    <td>20:51:35</td>
+                    <td>20:43:43</td>
                 </tr>
                 
                 <tr>
                     <td>3</td>
-                    <td>Guran (LSS)</td>
+                    <td>Guran</td>
+                    <td>LSS</td>
+                    <td>Facil 30</td>
                     <td>
-                        Shira (Facil 30)
                         
-                            <br><small>SWE-44</small>
+                            SWE-44
                         
                     </td>
+                    <td>E3889</td>
                     <td>
                         
                             0.927
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>12:46</td>
                     <td>12:12:00</td>
                     <td>23:26:00</td>
@@ -159,19 +200,21 @@
                 
                 <tr>
                     <td>4</td>
-                    <td>Pelle (LSS)</td>
+                    <td>Pelle</td>
+                    <td>LSS</td>
+                    <td>Facil 30</td>
                     <td>
-                        Shira2 (Facil 30)
                         
-                            <br><small>SWE-44</small>
+                            SWE-44
                         
                     </td>
+                    <td>E3889</td>
                     <td>
                         
                             0.927
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>12:46</td>
                     <td>12:12:12</td>
                     <td>23:26:12</td>
@@ -181,19 +224,21 @@
                 
                 <tr>
                     <td>5</td>
-                    <td>Guran (LSS)</td>
+                    <td>Guran</td>
+                    <td>LSS</td>
+                    <td>Albin Nova</td>
                     <td>
-                        Miss Schnuck (Albin Nova)
                         
-                            <br><small>SWE-247</small>
+                            SWE-247
                         
                     </td>
+                    <td>E6783</td>
                     <td>
                         
                             0.941
                         
                     </td>
-                    <td>2</td>
+                    <td>3</td>
                     <td>12:47</td>
                     <td>12:00:00</td>
                     <td>23:13:00</td>
@@ -203,19 +248,21 @@
                 
                 <tr>
                     <td>6</td>
-                    <td>Nisse (LSS)</td>
+                    <td>Nisse</td>
+                    <td>LSS</td>
+                    <td>Albin Nova</td>
                     <td>
-                        Miss Schnuck (Albin Nova)
                         
-                            <br><small>SWE-247</small>
+                            SWE-247
                         
                     </td>
+                    <td>E6783</td>
                     <td>
                         
                             0.941
                         
                     </td>
-                    <td>5</td>
+                    <td>6</td>
                     <td>12:47</td>
                     <td>12:12:00</td>
                     <td>23:25:00</td>
@@ -225,19 +272,21 @@
                 
                 <tr>
                     <td>7</td>
-                    <td>Nisse (LSS)</td>
+                    <td>Nisse</td>
+                    <td>LSS</td>
+                    <td>X-99</td>
                     <td>
-                        Miandra (X-99)
                         
-                            <br><small>SWE-199</small>
+                            SWE-199
                         
                     </td>
+                    <td>E7870</td>
                     <td>
                         
                             1.000
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>12:53</td>
                     <td>12:00:00</td>
                     <td>23:07:00</td>
@@ -247,19 +296,21 @@
                 
                 <tr>
                     <td>8</td>
-                    <td>Nisse (LSS)</td>
+                    <td>Nisse</td>
+                    <td>LSS</td>
+                    <td>SK 40</td>
                     <td>
-                        Wind (SK 40)
                         
-                            <br><small>SWE-71</small>
+                            SWE-71
                         
                     </td>
+                    <td>E8352</td>
                     <td>
                         
                             1.043
                         
                     </td>
-                    <td>0</td>
+                    <td>1</td>
                     <td>12:57</td>
                     <td>12:00:00</td>
                     <td>23:03:00</td>
@@ -269,19 +320,21 @@
                 
                 <tr>
                     <td>9</td>
-                    <td>Nisse (LSS)</td>
-                    <td>
-                        Shira (Facil 30)
-                        
-                            <br><small>SWE-44</small>
-                        
-                    </td>
+                    <td>Nisse</td>
+                    <td>LSS</td>
+                    <td>Facil 30</td>
                     <td>
                         
-                            1.050
+                            SWE-44
                         
                     </td>
-                    <td>1</td>
+                    <td>E3889</td>
+                    <td>
+                        
+                            1.050*
+                        
+                    </td>
+                    <td>2</td>
                     <td>12:57</td>
                     <td>12:12:00</td>
                     <td>23:15:00</td>
@@ -299,7 +352,7 @@
     </div>
 
     <div class="footer">
-        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-18 00:14:38
+        Genererad av <a href="https://github.com/rogge66/sailapp">Segling</a> 2025-05-18 00:23:15
     </div>
 </body>
 </html>
