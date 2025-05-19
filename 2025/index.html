@@ -13,7 +13,10 @@
         // Register service worker for better cache control
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/github-pages-sw.js')
+                // Use a relative path that works regardless of the site structure
+                const basePath = location.pathname.split('/').slice(0, -1).join('/');
+                const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
+                navigator.serviceWorker.register(swPath)
                     .then(function(registration) {
                         console.log('Service Worker registered with scope:', registration.scope);
                     })
@@ -110,7 +113,7 @@
             <ul class="list-group list-group-flush">
 
                 <li class="list-group-item">
-                    <a href="Kvällssegling/index.html?t=1747658905" class="event-link">
+                    <a href="Kvällssegling/index.html?t=1747659291" class="event-link">
                         <div class="d-flex align-items-center">
                             <span class="event-name">Kvällssegling</span>
                         </div>
@@ -119,7 +122,7 @@
                 </li>
 
                 <li class="list-group-item">
-                    <a href="Regatta/index.html?t=1747658905" class="event-link">
+                    <a href="Regatta/index.html?t=1747659291" class="event-link">
                         <div class="d-flex align-items-center">
                             <span class="event-name">Regatta</span>
                         </div>
@@ -128,7 +131,7 @@
                 </li>
 
                 <li class="list-group-item">
-                    <a href="Test/index.html?t=1747658905" class="event-link">
+                    <a href="Test/index.html?t=1747659291" class="event-link">
                         <div class="d-flex align-items-center">
                             <span class="event-name">Test</span>
                         </div>
