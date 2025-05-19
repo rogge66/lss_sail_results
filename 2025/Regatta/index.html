@@ -8,54 +8,6 @@
     <meta http-equiv="Expires" content="0">
     <title>Seglingsresultat - 2025 - Regatta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        // Register service worker for better cache control
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                try {
-                    // Use a relative path that works regardless of the site structure
-                    const basePath = location.pathname.split('/').slice(0, -1).join('/');
-                    const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
-
-                    // Add a timestamp to prevent caching of the service worker itself
-                    const swPathWithTimestamp = swPath + '?t=' + new Date().getTime();
-
-                    // Check if service worker is already registered
-                    navigator.serviceWorker.getRegistration().then(function(registration) {
-                        if (registration) {
-                            console.log('Service Worker already registered with scope:', registration.scope);
-                            // Force update to get the latest version
-                            registration.update().then(() => {
-                                console.log('Service Worker updated');
-                            }).catch(err => {
-                                console.log('Service Worker update failed:', err);
-                            });
-                        } else {
-                            // Register new service worker
-                            navigator.serviceWorker.register(swPathWithTimestamp)
-                                .then(function(registration) {
-                                    console.log('Service Worker registered with scope:', registration.scope);
-                                })
-                                .catch(function(error) {
-                                    console.log('Service Worker registration failed:', error);
-                                    // If registration fails, try to unregister any existing service workers
-                                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                                        for(let registration of registrations) {
-                                            registration.unregister();
-                                            console.log('Unregistered a service worker');
-                                        }
-                                    });
-                                });
-                        }
-                    }).catch(function(error) {
-                        console.log('Error checking service worker registration:', error);
-                    });
-                } catch (error) {
-                    console.log('Error in service worker registration code:', error);
-                }
-            });
-        }
-    </script>
     <style>
         body {
             padding: 20px;
@@ -73,7 +25,13 @@
         <h1>Seglingsresultat - 2025 - Regatta</h1>
         <p><a href="../index.html">Tillbaka till alla tävlingstyper</a></p>
         <div class="list-group">
-            <a href="2025-05-15-roxen-runt.html?t=1747660428" class="list-group-item list-group-item-action">
+            <a href="2025-05-29-the-cup.html?t=1747666190" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">The Cup</h5>
+                    <small>2025-05-29</small>
+                </div>
+            </a>
+            <a href="2025-05-15-roxen-runt.html?t=1747666190" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Roxen Runt</h5>
                     <small>2025-05-15</small>
