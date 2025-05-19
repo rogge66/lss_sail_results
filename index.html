@@ -13,16 +13,47 @@
         // Register service worker for better cache control
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                // Use a relative path that works regardless of the site structure
-                const basePath = location.pathname.split('/').slice(0, -1).join('/');
-                const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
-                navigator.serviceWorker.register(swPath)
-                    .then(function(registration) {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('Service Worker registration failed:', error);
+                try {
+                    // Use a relative path that works regardless of the site structure
+                    const basePath = location.pathname.split('/').slice(0, -1).join('/');
+                    const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
+
+                    // Add a timestamp to prevent caching of the service worker itself
+                    const swPathWithTimestamp = swPath + '?t=' + new Date().getTime();
+
+                    // Check if service worker is already registered
+                    navigator.serviceWorker.getRegistration().then(function(registration) {
+                        if (registration) {
+                            console.log('Service Worker already registered with scope:', registration.scope);
+                            // Force update to get the latest version
+                            registration.update().then(() => {
+                                console.log('Service Worker updated');
+                            }).catch(err => {
+                                console.log('Service Worker update failed:', err);
+                            });
+                        } else {
+                            // Register new service worker
+                            navigator.serviceWorker.register(swPathWithTimestamp)
+                                .then(function(registration) {
+                                    console.log('Service Worker registered with scope:', registration.scope);
+                                })
+                                .catch(function(error) {
+                                    console.log('Service Worker registration failed:', error);
+                                    // If registration fails, try to unregister any existing service workers
+                                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                                        for(let registration of registrations) {
+                                            registration.unregister();
+                                            console.log('Unregistered a service worker');
+                                        }
+                                    });
+                                });
+                        }
+                    }).catch(function(error) {
+                        console.log('Error checking service worker registration:', error);
                     });
+                } catch (error) {
+                    console.log('Error in service worker registration code:', error);
+                }
             });
         }
     </script>
@@ -92,7 +123,7 @@
             <ul class="list-group list-group-flush">
 
                 <li class="list-group-item">
-                    <a href="2025/index.html?t=1747659655" class="year-link">
+                    <a href="2025/index.html?t=1747660139" class="year-link">
                         <span class="year-item">2025</span>
                         <i class="bi bi-chevron-right text-primary"></i>
                     </a>
