@@ -13,7 +13,10 @@
         // Register service worker for better cache control
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/github-pages-sw.js')
+                // Use a relative path that works regardless of the site structure
+                const basePath = location.pathname.split('/').slice(0, -1).join('/');
+                const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
+                navigator.serviceWorker.register(swPath)
                     .then(function(registration) {
                         console.log('Service Worker registered with scope:', registration.scope);
                     })
@@ -89,7 +92,7 @@
             <ul class="list-group list-group-flush">
 
                 <li class="list-group-item">
-                    <a href="2025/index.html?t=1747658907" class="year-link">
+                    <a href="2025/index.html?t=1747659292" class="year-link">
                         <span class="year-item">2025</span>
                         <i class="bi bi-chevron-right text-primary"></i>
                     </a>
