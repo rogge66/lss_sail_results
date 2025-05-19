@@ -12,7 +12,10 @@
         // Register service worker for better cache control
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/github-pages-sw.js')
+                // Use a relative path that works regardless of the site structure
+                const basePath = location.pathname.split('/').slice(0, -1).join('/');
+                const swPath = basePath ? basePath + '/github-pages-sw.js' : '/github-pages-sw.js';
+                navigator.serviceWorker.register(swPath)
                     .then(function(registration) {
                         console.log('Service Worker registered with scope:', registration.scope);
                     })
@@ -39,7 +42,7 @@
         <h1>Seglingsresultat - 2025 - Test</h1>
         <p><a href="../index.html">Tillbaka till alla tävlingstyper</a></p>
         <div class="list-group">
-            <a href="2025-05-30-regatta-2025-05-31.html?t=1747658904" class="list-group-item list-group-item-action">
+            <a href="2025-05-30-regatta-2025-05-31.html?t=1747659290" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Regatta 2025 05 31</h5>
                     <small>2025-05-30</small>
