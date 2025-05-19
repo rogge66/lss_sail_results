@@ -1,11 +1,8 @@
-// GitHub Pages Service Worker for cache control
+// GitHub Pages Service Worker for cache control - Simplified Version
 // This service worker helps control caching for GitHub Pages
 
-const CACHE_NAME = 'github-pages-cache-v1';
+const CACHE_NAME = 'github-pages-cache-v2'; // Incremented version to force cache refresh
 const CACHE_MAX_AGE = 60; // Cache lifetime in seconds
-
-// Get the base path for the service worker
-const BASE_PATH = self.location.pathname.substring(0, self.location.pathname.lastIndexOf('/'));
 
 // Install event - create cache
 self.addEventListener('install', (event) => {
@@ -31,121 +28,95 @@ self.addEventListener('activate', (event) => {
   return self.clients.claim(); // Take control immediately
 });
 
-// Helper function to determine if a request should be cached
-function shouldCache(request) {
-  const url = new URL(request.url);
-
-  // Don't cache API requests
-  if (url.pathname.startsWith('/api/')) {
-    return false;
-  }
-
-  // Only cache GET requests
-  if (request.method !== 'GET') {
-    return false;
-  }
-
-  // Don't cache URLs with cache-busting parameters
-  if (url.search.includes('t=')) {
-    return false;
-  }
-
-  return true;
-}
-
 // Helper function to add cache-busting parameter to URLs
 function addCacheBustingParam(url) {
-  const urlObj = new URL(url);
+  try {
+    const urlObj = new URL(url);
 
-  // If URL already has a timestamp parameter, don't add another one
-  if (urlObj.searchParams.has('t')) {
-    return url;
+    // If URL already has a timestamp parameter, don't add another one
+    if (urlObj.searchParams.has('t')) {
+      return url;
+    }
+
+    // Add timestamp parameter
+    urlObj.searchParams.set('t', Date.now());
+    return urlObj.toString();
+  } catch (error) {
+    console.log('Error in addCacheBustingParam:', error);
+    return url; // Return the original URL if there's an error
   }
-
-  // Add timestamp parameter
-  urlObj.searchParams.set('t', Date.now());
-  return urlObj.toString();
 }
 
-// Fetch event - network first, then cache
+// Fetch event handler - simplified to avoid chrome-extension URL issues
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
+  // Only handle HTTP/HTTPS requests
+  try {
+    const url = new URL(event.request.url);
 
-  // Handle HTML requests specially to ensure freshness
-  const url = new URL(event.request.url);
-  const isHTMLRequest = url.pathname.endsWith('.html') || url.pathname.endsWith('/');
+    // Skip non-HTTP(S) URLs completely
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return; // Let browser handle it normally
+    }
 
-  if (isHTMLRequest) {
-    // For HTML, always go to network first
-    event.respondWith(
-      fetch(addCacheBustingParam(event.request.url))
-        .then(response => {
-          // Clone the response to store in cache
-          const responseToCache = response.clone();
+    // Skip non-GET requests
+    if (event.request.method !== 'GET') {
+      return;
+    }
 
-          // Store in cache with timestamp
-          caches.open(CACHE_NAME).then(cache => {
-            const cacheMetadata = {
-              timestamp: Date.now(),
-              response: responseToCache
-            };
-            cache.put(event.request, responseToCache);
-          });
+    // Handle HTML pages - network first with cache fallback
+    const isHTMLRequest = url.pathname.endsWith('.html') || url.pathname.endsWith('/');
 
-          return response;
-        })
-        .catch(() => {
-          // If network fails, try the cache
-          return caches.match(event.request).then(cachedResponse => {
+    if (isHTMLRequest) {
+      event.respondWith(
+        fetch(addCacheBustingParam(event.request.url))
+          .then(response => {
+            // Only cache successful responses
+            if (response.status === 200) {
+              const clonedResponse = response.clone();
+              caches.open(CACHE_NAME)
+                .then(cache => cache.put(event.request, clonedResponse))
+                .catch(err => console.log('Cache put error:', err));
+            }
+            return response;
+          })
+          .catch(() => {
+            // Network failed, try cache
+            return caches.match(event.request)
+              .then(cachedResponse => {
+                return cachedResponse ||
+                  new Response('Page is offline', {
+                    status: 503,
+                    headers: { 'Content-Type': 'text/plain' }
+                  });
+              });
+          })
+      );
+    } else {
+      // For other resources - cache first with network fallback
+      event.respondWith(
+        caches.match(event.request)
+          .then(cachedResponse => {
             if (cachedResponse) {
-              console.log('Serving from cache:', event.request.url);
               return cachedResponse;
             }
-            // If not in cache, return a basic offline page
-            return new Response('Page is offline', {
-              status: 503,
-              statusText: 'Service Unavailable',
-              headers: new Headers({
-                'Content-Type': 'text/plain'
-              })
-            });
-          });
-        })
-    );
-  } else {
-    // For non-HTML resources, use cache first for performance, but update cache in background
-    event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
-        // Check if we have a valid cached response
-        if (cachedResponse) {
-          // Fetch from network in the background to update cache
-          fetch(event.request).then(networkResponse => {
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, networkResponse);
-            });
-          }).catch(() => {
-            console.log('Background fetch failed for:', event.request.url);
-          });
 
-          return cachedResponse;
-        }
-
-        // If not in cache, fetch from network
-        return fetch(event.request).then(networkResponse => {
-          // Cache the response if it should be cached
-          if (shouldCache(event.request)) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          }
-
-          return networkResponse;
-        });
-      })
-    );
+            // Not in cache, get from network
+            return fetch(event.request)
+              .then(response => {
+                // Only cache successful responses
+                if (response.status === 200) {
+                  const clonedResponse = response.clone();
+                  caches.open(CACHE_NAME)
+                    .then(cache => cache.put(event.request, clonedResponse))
+                    .catch(err => console.log('Cache put error:', err));
+                }
+                return response;
+              });
+          })
+      );
+    }
+  } catch (error) {
+    console.log('Service worker fetch error:', error);
+    // Don't call respondWith in the catch block
   }
 });
